@@ -33,7 +33,7 @@ Tasks:
 - What do I need to implement this game?
 - [x] ~~Create player character~~
 - [x] ~~Move player character on Y axis depending on crank movement~~
-- [ ] Draw barriers
+- [x] ~~Draw barriers~~
 - [ ] Move character through barriers when the player presses a button
 - What else needs to be done?
 
