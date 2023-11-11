@@ -21,7 +21,14 @@ I think I will go with the Nyan Cat clone. I will start with some
 engineering art and then I will think of how I can make this look good.
 
 Tasks:
-- [ ] Create basic main menu MVC
-- [ ] Create basic game MVC
+- [x] ~~Create basic main menu MVC~~
+- [x] ~~Create basic game MVC~~
+- Let's start by developing the main menu and then implementing some
+  actual gameplay
+- [ ] Populate main menu
+  - The main menu should contain instructions on how to play the game,
+    a warning to tell the user to undock the crank, and the highest score
+- [ ] Only start game is crank is undocked
+- [ ] Actually implement the game
 
 
