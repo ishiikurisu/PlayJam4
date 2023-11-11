@@ -34,6 +34,11 @@ Tasks:
 - [x] ~~Create player character~~
 - [x] ~~Move player character on Y axis depending on crank movement~~
 - [x] ~~Draw barriers~~
-- [ ] Move character through barriers when the player presses a button
-- What else needs to be done?
+- [x] ~~Move character through barriers when the player presses a button~~
+- What else needs to be done? Since the basic mechanics are now implemented,
+  it's complete the actual game.
+- [ ] Implement a timer
+- [ ] Implement lives
+- [ ] Implement high score system
+- I think this is all I would need to have a complete basic game.
 
