@@ -5,6 +5,7 @@ local gfx <const> = playdate.graphics
 local PLAYER_WIDTH <const> = 8
 local PLAYER_HEIGHT <const> = 8
 local SCREEN_HEIGHT <const> = pd.display.getHeight()
+local BARRIER_GAP = PLAYER_HEIGHT * 2
 
 -- #######################
 -- # AUXILIARY FUNCTIONS #
@@ -27,12 +28,29 @@ local degree_change_to_cartesian_change = function(dg)
   return dg * pd.display.getHeight() / 360
 end
 
-local handle_game_running_input = function(context)
-  local player = context.player
-  local change, accelerated_change = pd.getCrankChange()
-  local delta_y = degree_change_to_cartesian_change(change)
-  player.pos_y = minmax(player.pos_y + delta_y, 0, SCREEN_HEIGHT - PLAYER_HEIGHT)
-  return context
+local any_button_just_pressed = function()
+  local buttons = {
+    pd.kButtonA,
+    pd.kButtonB,
+    pd.kButtonUp,
+    pd.kButtonDown,
+    pd.kButtonLeft,
+    pd.kButtonRight,
+  }
+  local result = false
+
+  for _, button in pairs(buttons) do
+    result = result or pd.buttonJustPressed(button)
+  end
+
+  return result
+end
+
+local barrier_can_be_passed = function(barrier, player)
+  local touches_higher_barrier = player.pos_y < barrier.pos_y
+  local touches_lower_barrier = player.pos_y + PLAYER_HEIGHT > barrier.pos_y + BARRIER_GAP
+
+  return (not touches_higher_barrier) and (not touches_lower_barrier)
 end
 
 local generate_new_barrier = function()
@@ -51,6 +69,41 @@ local generate_new_barriers = function(how_many)
   return barriers
 end
 
+local poppush_barriers = function(old_barriers)
+  local new_barriers = {}
+  local how_many = #old_barriers
+
+  for i = 2, how_many + 1 do
+    table.insert(new_barriers, old_barriers[i])
+  end
+
+  table.insert(new_barriers, generate_new_barrier())
+
+  return new_barriers
+end
+
+local handle_game_running_input = function(context)
+  -- handling vertical movement
+  local player = context.player
+  local change, accelerated_change = pd.getCrankChange()
+  local delta_y = degree_change_to_cartesian_change(change)
+  player.pos_y = minmax(player.pos_y + delta_y, 0, SCREEN_HEIGHT - PLAYER_HEIGHT)
+
+  -- handling horizontal
+  local barriers = context.barriers
+  local barrier = barriers[1]
+  if any_button_just_pressed() then
+    -- TODO remove life is player hits barrier
+    if barrier_can_be_passed(barrier, player) then
+      barriers = poppush_barriers(barriers)
+    end
+  end
+  
+  context.player = player
+  context.barriers = barriers
+  return context
+end
+
 -- ###################
 -- # MAIN OPERATIONS #
 -- ###################
@@ -64,6 +117,7 @@ game_scene.setup = function(context, init_params)
       pos_y = SCREEN_HEIGHT/2 - PLAYER_HEIGHT/2,
     },
     barriers = generate_new_barriers(20),
+    score = 0,
   }
   return context
 end
@@ -100,7 +154,7 @@ game_scene.draw = function(context)
     gfx.drawRoundRect(x, y, w, h, r)
 
     -- drawing lower barrier
-    y = barrier.pos_y + 2*PLAYER_HEIGHT
+    y = barrier.pos_y + BARRIER_GAP
     h = SCREEN_HEIGHT - y + 10 
     gfx.drawRoundRect(x, y, w, h, r)
   end
