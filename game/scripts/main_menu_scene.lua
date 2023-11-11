@@ -9,7 +9,7 @@ main_menu_scene.setup = function(context, input_params)
 end
 
 main_menu_scene.update = function(context)
-  if pd.buttonIsPressed(pd.kButtonA) then
+  if pd.buttonIsPressed(pd.kButtonA) and not pd.isCrankDocked() then
     context = game_scene.setup(context, {})
   end
   return context
@@ -19,11 +19,16 @@ main_menu_scene.draw = function(context)
   local high_score = 0  -- TODO implement high score!
 
   gfx.clear()
-  gfx.drawText("PLEASE GIVE ME A NAME", 50, 50)
-  gfx.drawText("- Use the dock to move up and down", 50, 70)
-  gfx.drawText("- Press any button to move right", 50, 90)
-  gfx.drawText("- Surpass as many barriers as possible in 60s", 50, 110)
-  gfx.drawText("Press any button to start and good luck!", 50, 150)
-  gfx.drawText("HIGH SCORE: " .. high_score, 50, 170)
+  gfx.drawText("PLEASE GIVE ME A NAME", 10, 10)
+  gfx.drawText("- Use the dock to move up and down", 10, 30)
+  gfx.drawText("- Press any button to move right", 10, 50)
+  gfx.drawText("- Surpass as many barriers as possible in 60s", 10, 70)
+  gfx.drawText("- Undock the crank and press any button to start", 10, 90)
+  gfx.drawText("GOOD LUCK!", 10, 130)
+  gfx.drawText("HIGH SCORE: " .. high_score, 10, 150)
+
+  if playdate.isCrankDocked() then
+    playdate.ui.crankIndicator:draw()
+  end
 end
 
