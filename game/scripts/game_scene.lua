@@ -35,6 +35,22 @@ local handle_game_running_input = function(context)
   return context
 end
 
+local generate_new_barrier = function()
+  local from_y = PLAYER_HEIGHT
+  local to_y = SCREEN_HEIGHT - 3*PLAYER_HEIGHT
+  return {
+    pos_y = math.random(from_y, to_y)
+  }
+end
+
+local generate_new_barriers = function(how_many)
+  local barriers = {}
+  for i = 1, (how_many + 1) do
+    table.insert(barriers, generate_new_barrier)
+  end
+  return barriers
+end
+
 -- ###################
 -- # MAIN OPERATIONS #
 -- ###################
@@ -47,6 +63,7 @@ game_scene.setup = function(context, init_params)
     player = {
       pos_y = SCREEN_HEIGHT/2 - PLAYER_HEIGHT/2,
     },
+    barriers = generate_new_barriers(10),
   }
   return context
 end
@@ -57,12 +74,32 @@ game_scene.update = function(context)
 end
 
 game_scene.draw = function(context)
+  local x = 0
+  local y = 0
+  local w = 0
+  local h = 0
+  local r = 2
   gfx.clear()
 
   -- drawing player character
   local player = context.player
-  local pos_x = 10
-  local pos_y = player.pos_y
-  gfx.fillRoundRect(pos_x, pos_y, PLAYER_WIDTH, PLAYER_HEIGHT, 2)
+  x = 10
+  y = player.pos_y
+  w = PLAYER_WIDTH
+  h = PLAYER_HEIGHT
+  gfx.fillRoundRect(x, y, w, h, r)
+
+  -- drawing barriers
+  local barriers = context.barriers
+  for n, barrier in range(barriers) do
+    -- drawing higher barrier
+    x = 20 * n
+    y = -10
+    w = 10
+    h = barrier.pos_y + 10
+    gfx.drawRoundRect(x, y, w, h, r)
+
+    -- TODO draw lower barrier
+  end
 end
 
