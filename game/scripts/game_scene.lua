@@ -46,7 +46,7 @@ end
 local generate_new_barriers = function(how_many)
   local barriers = {}
   for i = 1, (how_many + 1) do
-    table.insert(barriers, generate_new_barrier)
+    table.insert(barriers, generate_new_barrier())
   end
   return barriers
 end
@@ -63,7 +63,7 @@ game_scene.setup = function(context, init_params)
     player = {
       pos_y = SCREEN_HEIGHT/2 - PLAYER_HEIGHT/2,
     },
-    barriers = generate_new_barriers(10),
+    barriers = generate_new_barriers(20),
   }
   return context
 end
@@ -91,15 +91,18 @@ game_scene.draw = function(context)
 
   -- drawing barriers
   local barriers = context.barriers
-  for n, barrier in range(barriers) do
+  for n, barrier in pairs(barriers) do
     -- drawing higher barrier
-    x = 20 * n
+    x = 30 * n
     y = -10
     w = 10
     h = barrier.pos_y + 10
     gfx.drawRoundRect(x, y, w, h, r)
 
-    -- TODO draw lower barrier
+    -- drawing lower barrier
+    y = barrier.pos_y + 2*PLAYER_HEIGHT
+    h = SCREEN_HEIGHT - y + 10 
+    gfx.drawRoundRect(x, y, w, h, r)
   end
 end
 

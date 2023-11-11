@@ -2,3 +2,6 @@
 *.pdx
 *.zip
 
+# MAC STUFF
+.DS_Store
+
