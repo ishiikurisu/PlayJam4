@@ -15,7 +15,7 @@ What kinds of game I can make with this theme?
       - Press any other button to move to the next part
     - You can get a highscore here
     - You lose if you the walls too often
-  - Some kind of puzzle game? What kind though?
+  - Something like those maze toys?
 
 I think I will go with the Nyan Cat clone. I will start with some
 engineering art and then I will think of how I can make this look good.
@@ -31,8 +31,8 @@ Tasks:
 - [x] ~~Only start game is crank is undocked~~
 - [ ] Actually implement the game
 - What do I need to implement this game?
-- [ ] Create player character
-- [ ] Move player character on Y axis depending on crank movement
+- [x] ~~Create player character~~
+- [x] ~~Move player character on Y axis depending on crank movement~~
 - [ ] Draw barriers
 - [ ] Move character through barriers when the player presses a button
 - What else needs to be done?

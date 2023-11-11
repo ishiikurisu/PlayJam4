@@ -35,7 +35,6 @@ local handle_game_running_input = function(context)
   return context
 end
 
-
 -- ###################
 -- # MAIN OPERATIONS #
 -- ###################
