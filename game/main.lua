@@ -4,6 +4,7 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 import "CoreLibs/ui"
 
+import "scripts/high_score_model"
 import "scripts/main_menu_scene"
 import "scripts/game_scene"
 

@@ -124,6 +124,7 @@ local update_running_game_state = function(context)
   end
 
   if context.timer <= 0 or context.player.health <= 0 then
+    context.is_new_high_score = high_score_model.maybe_set_high_score(context.score)
     context.state = GAME_STATES.GAME_OVER
   end
 
@@ -140,8 +141,22 @@ local build_ui_text = function(context)
   return outlet
 end
 
+local build_game_over_text = function(context)
+  local game_over_message = "GAME OVER!"
+  local score_message = " SCORE: "
+
+  if context.timer <= 0 then
+    game_over_message = "YOUR TIME IS UP!"
+  end
+
+  if context.is_new_high_score then
+    score_message = " NEW HIGH SCORE: "
+  end
+
+  return game_over_message .. score_message .. context.score
+end
+
 local handle_game_over_input = function(context)
-  -- TODO maybe save high score
   if any_button_just_pressed() then
     context = main_menu_scene.setup() 
   end
@@ -164,6 +179,7 @@ game_scene.setup = function(context, init_params)
     barriers = generate_new_barriers(20),
     score = 0,
     timer = INITIAL_TIMER,
+    is_new_high_score = false,
   }
   return context
 end
@@ -228,7 +244,7 @@ game_scene.draw = function(context)
     h = SCREEN_HEIGHT / 2
     gfx.fillRoundRect(x, y, w, h, r)
 
-    t = "GAME OVER! YOUR SCORE: " .. context.score
+    t = build_game_over_text(context)
     w, h = gfx.drawText(t, x + 6, y + 6)
     x = SCREEN_WIDTH/2 - w/2
     y = SCREEN_HEIGHT/2 - h/2
