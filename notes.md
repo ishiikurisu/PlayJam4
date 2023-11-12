@@ -29,7 +29,7 @@ Tasks:
   - The main menu should contain instructions on how to play the game,
     a warning to tell the user to undock the crank, and the highest score
 - [x] ~~Only start game is crank is undocked~~
-- [ ] Actually implement the game
+- [x] ~~Actually implement the game~~
 - What do I need to implement this game?
 - [x] ~~Create player character~~
 - [x] ~~Move player character on Y axis depending on crank movement~~
@@ -39,6 +39,12 @@ Tasks:
   it's complete the actual game.
 - [x] ~~Implement a timer~~
 - [x] ~~Implement lives~~
-- [ ] Implement high score system
+- [x] ~~Implement high score system~~
 - I think this is all I would need to have a complete basic game.
+- After the basic game is implemented, I need to address gameplay problems
+  and prepare the game for submission.
+- [ ] Make barrier gaps larger for players
+- [ ] Maybe make barrier gaps appear closer to the previous ones
+- [ ] Maybe play some sounds to make this game more interesting
+- [ ] Pack game for submission
 
