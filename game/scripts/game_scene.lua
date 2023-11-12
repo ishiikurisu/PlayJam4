@@ -4,8 +4,12 @@ local gfx <const> = playdate.graphics
 
 local PLAYER_WIDTH <const> = 8
 local PLAYER_HEIGHT <const> = 8
+local SCREEN_WIDTH <const> = pd.display.getWidth()
 local SCREEN_HEIGHT <const> = pd.display.getHeight()
-local BARRIER_GAP = PLAYER_HEIGHT * 2
+local BARRIER_GAP <const> = PLAYER_HEIGHT * 2
+local INITIAL_HEALTH <const> = 3
+local INITIAL_TIMER <const> = 30 * 60
+local UI_HEIGHT <const> = 18
 
 -- #######################
 -- # AUXILIARY FUNCTIONS #
@@ -54,7 +58,7 @@ local barrier_can_be_passed = function(barrier, player)
 end
 
 local generate_new_barrier = function()
-  local from_y = PLAYER_HEIGHT
+  local from_y = PLAYER_HEIGHT + UI_HEIGHT
   local to_y = SCREEN_HEIGHT - 3*PLAYER_HEIGHT
   return {
     pos_y = math.random(from_y, to_y)
@@ -84,10 +88,12 @@ end
 
 local handle_game_running_input = function(context)
   -- handling vertical movement
+  local min_y = UI_HEIGHT
+  local max_y = SCREEN_HEIGHT - PLAYER_HEIGHT
   local player = context.player
   local change, accelerated_change = pd.getCrankChange()
   local delta_y = degree_change_to_cartesian_change(change)
-  player.pos_y = minmax(player.pos_y + delta_y, 0, SCREEN_HEIGHT - PLAYER_HEIGHT)
+  player.pos_y = minmax(player.pos_y + delta_y, min_y, max_y)
 
   -- handling horizontal
   local barriers = context.barriers
@@ -104,6 +110,16 @@ local handle_game_running_input = function(context)
   return context
 end
 
+local build_ui_text = function(context)
+  local outlet = ""
+  
+  outlet = outlet .. "LIVES: " .. context.player.health
+  outlet = outlet .. " TIMER: " .. context.timer
+  outlet = outlet .. " SCORE: " .. context.score
+
+  return outlet
+end
+
 -- ###################
 -- # MAIN OPERATIONS #
 -- ###################
@@ -115,9 +131,11 @@ game_scene.setup = function(context, init_params)
     state = "start",
     player = {
       pos_y = SCREEN_HEIGHT/2 - PLAYER_HEIGHT/2,
+      health = INITIAL_HEALTH,
     },
     barriers = generate_new_barriers(20),
     score = 0,
+    timer = INITIAL_TIMER,
   }
   return context
 end
@@ -158,5 +176,11 @@ game_scene.draw = function(context)
     h = SCREEN_HEIGHT - y + 10 
     gfx.drawRoundRect(x, y, w, h, r)
   end
+
+  -- TODO draw UI
+  gfx.fillRect(0, 0, SCREEN_WIDTH, UI_HEIGHT)
+  gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+  gfx.drawText(build_ui_text(context), 1, 1)
+  gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
 end
 
