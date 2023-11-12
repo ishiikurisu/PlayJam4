@@ -10,6 +10,11 @@ local BARRIER_GAP <const> = PLAYER_HEIGHT * 2
 local INITIAL_HEALTH <const> = 3
 local INITIAL_TIMER <const> = 30 * 60
 local UI_HEIGHT <const> = 18
+local GAME_STATES = {
+  START = 1,
+  RUNNING = 2,
+  GAME_OVER = 3,
+}
 
 -- #######################
 -- # AUXILIARY FUNCTIONS #
@@ -99,14 +104,29 @@ local handle_game_running_input = function(context)
   local barriers = context.barriers
   local barrier = barriers[1]
   if any_button_just_pressed() then
-    -- TODO remove life is player hits barrier
+    context.state = GAME_STATES.RUNNING
     if barrier_can_be_passed(barrier, player) then
       barriers = poppush_barriers(barriers)
+      context.score = context.score + 1
+    else
+      player.health = player.health - 1
     end
   end
   
   context.player = player
   context.barriers = barriers
+  return context
+end
+
+local update_running_game_state = function(context)
+  if context.state == GAME_STATES.RUNNING and context.timer > 0 then
+    context.timer = context.timer - 1
+  end
+
+  if context.timer <= 0 or context.player.health <= 0 then
+    context.state = GAME_STATES.GAME_OVER
+  end
+
   return context
 end
 
@@ -120,6 +140,14 @@ local build_ui_text = function(context)
   return outlet
 end
 
+local handle_game_over_input = function(context)
+  -- TODO maybe save high score
+  if any_button_just_pressed() then
+    context = main_menu_scene.setup() 
+  end
+  return context
+end
+
 -- ###################
 -- # MAIN OPERATIONS #
 -- ###################
@@ -128,7 +156,7 @@ game_scene.setup = function(context, init_params)
   UPDATE = game_scene.update
   DRAW = game_scene.draw
   context = {
-    state = "start",
+    state = GAME_STATES.START,
     player = {
       pos_y = SCREEN_HEIGHT/2 - PLAYER_HEIGHT/2,
       health = INITIAL_HEALTH,
@@ -141,7 +169,15 @@ game_scene.setup = function(context, init_params)
 end
 
 game_scene.update = function(context)
-  context = handle_game_running_input(context)
+  local state = context.state
+
+  if state == GAME_STATES.GAME_OVER then
+    context = handle_game_over_input(context)
+  else
+    context = handle_game_running_input(context)
+    context = update_running_game_state(context)
+  end
+
   return context
 end
 
@@ -151,6 +187,7 @@ game_scene.draw = function(context)
   local w = 0
   local h = 0
   local r = 2
+  local t = ""
   gfx.clear()
 
   -- drawing player character
@@ -177,10 +214,27 @@ game_scene.draw = function(context)
     gfx.drawRoundRect(x, y, w, h, r)
   end
 
-  -- TODO draw UI
+  -- drawing UI
+  t = build_ui_text(context)
   gfx.fillRect(0, 0, SCREEN_WIDTH, UI_HEIGHT)
   gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-  gfx.drawText(build_ui_text(context), 1, 1)
+  gfx.drawText(t, 1, 1)
   gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
+
+  if context.state == GAME_STATES.GAME_OVER then
+    x = SCREEN_WIDTH / 8
+    y = SCREEN_HEIGHT / 4
+    w = SCREEN_WIDTH * 3 / 4
+    h = SCREEN_HEIGHT / 2
+    gfx.fillRoundRect(x, y, w, h, r)
+
+    t = "GAME OVER! YOUR SCORE: " .. context.score
+    w, h = gfx.drawText(t, x + 6, y + 6)
+    x = SCREEN_WIDTH/2 - w/2
+    y = SCREEN_HEIGHT/2 - h/2
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+    gfx.drawText(t, x, y)
+    gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
+  end
 end
 

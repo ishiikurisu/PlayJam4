@@ -37,8 +37,8 @@ Tasks:
 - [x] ~~Move character through barriers when the player presses a button~~
 - What else needs to be done? Since the basic mechanics are now implemented,
   it's complete the actual game.
-- [ ] Implement a timer
-- [ ] Implement lives
+- [x] ~~Implement a timer~~
+- [x] ~~Implement lives~~
 - [ ] Implement high score system
 - I think this is all I would need to have a complete basic game.
 
