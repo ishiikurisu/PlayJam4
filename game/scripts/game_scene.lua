@@ -39,8 +39,6 @@ end
 
 local any_button_just_pressed = function()
   local buttons = {
-    pd.kButtonA,
-    pd.kButtonB,
     pd.kButtonUp,
     pd.kButtonDown,
     pd.kButtonLeft,
@@ -145,6 +143,7 @@ end
 local build_game_over_text = function(context)
   local game_over_message = "GAME OVER!"
   local score_message = " SCORE: "
+  local tail = "\nPRESS A TO CONTINUE"
 
   if context.timer <= 0 then
     game_over_message = "YOUR TIME IS UP!"
@@ -154,11 +153,11 @@ local build_game_over_text = function(context)
     score_message = " NEW HIGH SCORE: "
   end
 
-  return game_over_message .. score_message .. context.score
+  return game_over_message .. score_message .. context.score .. tail
 end
 
 local handle_game_over_input = function(context)
-  if any_button_just_pressed() then
+  if pd.buttonJustPressed(pd.kButtonA) then
     context = main_menu_scene.setup() 
   end
   return context
