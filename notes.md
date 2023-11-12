@@ -44,7 +44,10 @@ Tasks:
 - After the basic game is implemented, I need to address gameplay problems
   and prepare the game for submission.
 - [ ] Make barrier gaps larger for players
-- [ ] Maybe make barrier gaps appear closer to the previous ones
-- [ ] Maybe play some sounds to make this game more interesting
 - [ ] Pack game for submission
-
+- And here are some further improvements if I have more time to implement 
+  them:
+- [ ] Add some animations when moving barriers
+- [ ] Make barrier gaps appear closer to the previous ones
+- [ ] Play some sounds to make this game more interesting
+-
