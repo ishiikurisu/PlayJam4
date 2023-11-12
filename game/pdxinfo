@@ -1,7 +1,7 @@
-name=Please give me a name
+name=Sixty seconds barriers
 author=Cris Silva Jr.
 description=Submission for Play Jam 4
 bundleID=br.eng.crisjr.playjam4
-vresion=1.0.0
+version=0.0.1
 buildNumber=1
 imagePath=sprites/launcher

@@ -133,9 +133,10 @@ end
 
 local build_ui_text = function(context)
   local outlet = ""
+  local timer_seconds = string.format("%.3f", context.timer / 30)
   
   outlet = outlet .. "LIVES: " .. context.player.health
-  outlet = outlet .. " TIMER: " .. context.timer
+  outlet = outlet .. " TIMER: " .. timer_seconds .. "s"
   outlet = outlet .. " SCORE: " .. context.score
 
   return outlet

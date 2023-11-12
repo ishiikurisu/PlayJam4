@@ -44,10 +44,15 @@ Tasks:
 - After the basic game is implemented, I need to address gameplay problems
   and prepare the game for submission.
 - [x] ~~Make barrier gaps larger for players~~
-- [ ] Pack game for submission
+- [x] ~~Pack game for submission~~
+- How should I call this game? The first name that came to mind was
+  "60 seconds barriers", which seems fitting. I will go with that.
+- Some player feedback that I should probably address:
+- [ ] Only use arrows to move the player character
+- [ ] Only use A to move back and forth menu and game scenes
 - And here are some further improvements if I have more time to implement 
   them:
 - [ ] Add some animations when moving barriers
 - [ ] Make barrier gaps appear closer to the previous ones
 - [ ] Play some sounds to make this game more interesting
--
+

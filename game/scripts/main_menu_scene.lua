@@ -19,7 +19,7 @@ main_menu_scene.draw = function(context)
   local high_score = high_score_model.get_high_score()
 
   gfx.clear()
-  gfx.drawText("PLEASE GIVE ME A NAME", 10, 10)
+  gfx.drawText("SIXTY SECONDS BARRIERS", 10, 10)
   gfx.drawText("- Use the dock to move up and down", 10, 30)
   gfx.drawText("- Press any button to move right", 10, 50)
   gfx.drawText("- Surpass as many barriers as possible in 60s", 10, 70)
