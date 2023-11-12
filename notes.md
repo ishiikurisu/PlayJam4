@@ -48,8 +48,8 @@ Tasks:
 - How should I call this game? The first name that came to mind was
   "60 seconds barriers", which seems fitting. I will go with that.
 - Some player feedback that I should probably address:
-- [ ] Only use arrows to move the player character
-- [ ] Only use A to move back and forth menu and game scenes
+- [x] ~~Only use arrows to move the player character~~
+- [x] ~~Only use A to move back and forth menu and game scenes~~
 - And here are some further improvements if I have more time to implement 
   them:
 - [ ] Add some animations when moving barriers
