@@ -6,7 +6,7 @@ local PLAYER_WIDTH <const> = 8
 local PLAYER_HEIGHT <const> = 8
 local SCREEN_WIDTH <const> = pd.display.getWidth()
 local SCREEN_HEIGHT <const> = pd.display.getHeight()
-local BARRIER_GAP <const> = PLAYER_HEIGHT * 2
+local BARRIER_GAP <const> = PLAYER_HEIGHT * 3
 local INITIAL_HEALTH <const> = 3
 local INITIAL_TIMER <const> = 30 * 60
 local UI_HEIGHT <const> = 18
@@ -64,7 +64,7 @@ end
 
 local generate_new_barrier = function()
   local from_y = PLAYER_HEIGHT + UI_HEIGHT
-  local to_y = SCREEN_HEIGHT - 3*PLAYER_HEIGHT
+  local to_y = SCREEN_HEIGHT - (BARRIER_GAP + PLAYER_HEIGHT)
   return {
     pos_y = math.random(from_y, to_y)
   }

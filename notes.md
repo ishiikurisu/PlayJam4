@@ -43,7 +43,7 @@ Tasks:
 - I think this is all I would need to have a complete basic game.
 - After the basic game is implemented, I need to address gameplay problems
   and prepare the game for submission.
-- [ ] Make barrier gaps larger for players
+- [x] ~~Make barrier gaps larger for players~~
 - [ ] Pack game for submission
 - And here are some further improvements if I have more time to implement 
   them:
